@@ -4,7 +4,10 @@ from nose.tools import eq_
 from poker_face.poker import sort_hand, find_highest_hand
 
 class TestSortHand(unittest.TestCase):
-    pass
+    def test_simple(self):
+        result = sort_hand(['10S', 'JS', 'QS', 'KS', 'AS'])
+        expected_result = ['AS', 'KS', 'QS', 'JS', '10S']
+        eq_(result, expected_result)
 
 class TestFindHighestHand(unittest.TestCase):
     def test_royal_flush(self):
