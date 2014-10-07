@@ -15,7 +15,7 @@ class TestSortHand(unittest.TestCase):
         eq_(result, expected_result)
 
     def test_mix(self):
-        result = sort_hand([['KS', 'KD', '3C', '3H', '3D']])
+        result = sort_hand(['KS', 'KD', '3C', '3H', '3D'])
         expected_result = ['KS', 'KD', '3H', '3D', '3C']
         eq_(result, expected_result)
 
