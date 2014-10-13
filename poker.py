@@ -1,16 +1,23 @@
 import collections
 
-def sort_hand(hand):
-    """Given a hand (list of strings), will sort in order from highest to lowest cards and return as a list of strings."""
-    #OrderedDict should be an easier way to accomplish the sorting.
+def build_ordered_dict():
+    """Builds default ordered dict for use in poker.py and tests."""
     card_count = collections.OrderedDict()
     for face in ['A', 'K', 'Q', 'J']:
         card_count[face] = []
     for num in range(10, 1, -1):
-        card_count[num] = []
+        card_count[str(num)] = []
+
+    return card_count
+
+def sort_hand(hand):
+    """Given a hand (list of strings), will sort in order from highest to lowest cards and return as a list of strings."""
+    #OrderedDict should be an easier way to accomplish the sorting.
+    card_count = build_ordered_dict()
 
     #convert face cards to numbers, turn each string into a tuple of (number, suite), sort, then turn back into a sorted list of strings.
     #OrderedDict suites aren't sorted. Do I care?
+    #Int vs. string (face cards vs. numbers).
     for card in hand:
         suite = card[-1]
         score = card[0:2] if len(card) == 3 else card[0]

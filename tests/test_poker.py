@@ -1,25 +1,33 @@
-import unittest
+from unittest import TestCase
 from nose.tools import eq_
 
-from poker_face.poker import sort_hand, find_highest_hand
+import collections
+from poker_face.poker import sort_hand, find_highest_hand, build_ordered_dict
 
-class TestSortHand(unittest.TestCase):
+class TestSortHand(TestCase):
     def test_same_suite(self):
         result = sort_hand(['10S', 'JS', 'QS', 'KS', 'AS'])
-        expected_result = ['AS', 'KS', 'QS', 'JS', '10S']
-        eq_(result, expected_result)
+        expected_result = build_ordered_dict()
+        for card in ['10', 'J', 'Q', 'K', 'A']:
+            expected_result[card].append('S')
+        self.assertItemsEqual(result, expected_result)
 
     def test_all_suites(self):
         result = sort_hand(['10S', '10H', '10C', '10D'])
-        expected_result = ['10S', '10H', '10D', '10C']
-        eq_(result, expected_result)
+        expected_result = build_ordered_dict()
+        for suite in ['S', 'H', 'C', 'D']:
+            expected_result['10'].append(suite)
+        self.assertItemsEqual(result, expected_result)
 
     def test_mix(self):
-        result = sort_hand(['KS', 'KD', '3C', '3H', '3D'])
-        expected_result = ['KS', 'KD', '3H', '3D', '3C']
-        eq_(result, expected_result)
+        hand = ['KS', 'KD', '3C', '3H', '3D']
+        result = sort_hand(hand)
+        expected_result = build_ordered_dict()
+        for card in hand:
+            expected_result[card[0]].append(card[1])
+        self.assertItemsEqual(result, expected_result)
 
-class TestFindHighestHand(unittest.TestCase):
+class TestFindHighestHand(TestCase):
     def test_royal_flush(self):
         result = find_highest_hand(['10S', 'JS', 'QS', 'KS', 'AS'])
         expected_result = ('Royal Flush', ['AS', 'KS', 'QS', 'JS', '10S'])
